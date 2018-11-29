@@ -1,6 +1,6 @@
 node('docker') {
   stage('poll') {
-    scm checkout
+    checkout scm
   }
   
   state('Build & Unit test') {
@@ -11,7 +11,7 @@ node('docker') {
   
   state('Static Code Analysis') {
     bat 'mvn clean verify sonar:sonar -Dsonar.projectName=example-project 
-    -Dsonar.projectKey=example=project -Dsonar.projectVersion=$BUILD_NUMBER';
+    -Dsonar.projectKey=example-project -Dsonar.projectVersion=$BUILD_NUMBER';
   }
   
   state('Integration Test') {
@@ -23,7 +23,7 @@ node('docker') {
   state('publish') {
     def server = Artifactory.server 'Default Artifactory Server'
     def uploadSpec = """{
-      "file" : [
+      "file": [
         {
           "pattern": "target/hello-0.0.1.war",
           "target": "example-project/${BUILD_NUMBER}/",
