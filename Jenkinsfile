@@ -30,5 +30,6 @@ node('docker') {
         }
       ]
     }"""
-  Server.upload(uploadSpec)
+    Server.upload(uploadSpec)
+  }
 }
